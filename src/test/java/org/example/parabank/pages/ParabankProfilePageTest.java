@@ -31,7 +31,7 @@ public class ParabankProfilePageTest {
         sidebar = new ParabankSidebarLinks(driver);
 
         ParabankRegisterPage registerPage = new ParabankRegisterPage(driver);
-        driver.get(CONFIG_LINK.BASE_URL + "/register.htm");
+        driver.get(ConfigLink.BASE_URL + "/register.htm");
         registerPage.fillRegistrationFormForBank(
                 "John", "Doe", "123 Main St", "New York", "NY",
                 "10001", "1234567890", "123-45-6789",
@@ -49,7 +49,7 @@ public class ParabankProfilePageTest {
 
     @BeforeMethod
     public void setupTest() {
-        driver.get(CONFIG_LINK.BASE_URL + "/updateprofile.htm");
+        driver.get(ConfigLink.BASE_URL + "/updateprofile.htm");
     }
 
     @AfterClass
@@ -64,7 +64,7 @@ public class ParabankProfilePageTest {
             description = "Submitting empty profile fields should not update profile and should remain on the update profile page"
     )
     public void testProfileUpdateEmptyFields() {
-        driver.navigate().to(CONFIG_LINK.BASE_URL + "/updateprofile.htm");
+        driver.navigate().to(ConfigLink.BASE_URL + "/updateprofile.htm");
         profilePage.clearProfileFields();
         driver.findElement(By.cssSelector("input[value='Update Profile']")).click();
         Assert.assertTrue(driver.getCurrentUrl().contains("updateprofile.htm"));
@@ -88,7 +88,7 @@ public class ParabankProfilePageTest {
             testName = "Test Case 03: Open new account and verify the account number"
     )
     public void testOpenNewAccount() throws InterruptedException {
-        driver.navigate().to(CONFIG_LINK.BASE_URL + "/openaccount.htm");
+        driver.navigate().to(ConfigLink.BASE_URL + "/openaccount.htm");
 
         profilePage.openNewAccount("0");
         Thread.sleep(2000);
@@ -121,7 +121,7 @@ public class ParabankProfilePageTest {
             testName = "Test Case 04: Transfer funds and verify the result"
     )
     public void testTransferFunds() throws InterruptedException {
-        driver.navigate().to(CONFIG_LINK.BASE_URL + "/transfer.htm");
+        driver.navigate().to(ConfigLink.BASE_URL + "/transfer.htm");
         profilePage.transferFunds("22");
 
         Thread.sleep(3000);

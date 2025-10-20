@@ -24,7 +24,7 @@ public class CheckoutStepOneTest {
         checkoutStepOne = new CheckoutStepOne(driver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        driver.get(CONFIG_LINKS.SAUCEDEMO_LINK);
+        driver.get(ConfigLink.SAUCEDEMO_LINK);
         loginPage.login("standard_user", "secret_sauce");
 
         wait.until(ExpectedConditions.urlContains("/inventory.html"));

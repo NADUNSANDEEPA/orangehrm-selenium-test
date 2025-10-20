@@ -31,7 +31,7 @@ public class ParabankLoginPageTest {
 
     @BeforeMethod
     public void setupTest() {
-        driver.get(CONFIG_LINK.BASE_URL+"/index.htm");
+        driver.get(ConfigLink.BASE_URL+"/index.htm");
         loginPage.clearFields();
     }
 
@@ -58,7 +58,7 @@ public class ParabankLoginPageTest {
     @Test(priority = 3, description = "Should register and login successfully with valid credentials")
     public void testSuccessfulRegistrationAndLogin() {
 
-        driver.get(CONFIG_LINK.BASE_URL+"/register.htm");
+        driver.get(ConfigLink.BASE_URL+"/register.htm");
 
         registerPage.fillRegistrationFormForBank(
                 "John", "Doe", "123 Main St", "New York", "NY",

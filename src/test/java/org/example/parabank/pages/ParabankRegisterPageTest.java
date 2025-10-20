@@ -29,7 +29,7 @@ public class ParabankRegisterPageTest {
 
     @BeforeMethod
     public void setupTest() {
-        driver.get(CONFIG_LINK.BASE_URL+"/register.htm");
+        driver.get(ConfigLink.BASE_URL+"/register.htm");
         registerPage.clearFields();
     }
 

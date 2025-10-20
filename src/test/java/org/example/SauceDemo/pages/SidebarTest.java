@@ -23,7 +23,7 @@ public class SidebarTest {
         sidebar = new Sidebar(driver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        driver.get(CONFIG_LINKS.SAUCEDEMO_LINK);
+        driver.get(ConfigLink.SAUCEDEMO_LINK);
         loginPage.login("standard_user", "secret_sauce");
 
         wait.until(ExpectedConditions.urlContains("/inventory.html"));
@@ -100,7 +100,7 @@ public class SidebarTest {
         wait.until(ExpectedConditions.elementToBeClickable(By.id("logout_sidebar_link")));
         sidebar.clickLogout();
 
-        wait.until(ExpectedConditions.urlContains(CONFIG_LINKS.SAUCEDEMO_LINK));
+        wait.until(ExpectedConditions.urlContains(ConfigLink.SAUCEDEMO_LINK));
         Assert.assertTrue(driver.findElement(By.cssSelector("[data-test='login-button']")).isDisplayed(),
                 "Login button should be visible after logout.");
 

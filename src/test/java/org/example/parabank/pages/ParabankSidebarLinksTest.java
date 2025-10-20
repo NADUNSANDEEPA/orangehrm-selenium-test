@@ -27,7 +27,7 @@ public class ParabankSidebarLinksTest {
         sidebar = new ParabankSidebarLinks(driver);
 
         ParabankRegisterPage registerPage = new ParabankRegisterPage(driver);
-        driver.get(CONFIG_LINK.BASE_URL+"/register.htm");
+        driver.get(ConfigLink.BASE_URL+"/register.htm");
         registerPage.fillRegistrationFormForBank(
                 "John", "Doe", "123 Main St", "New York", "NY",
                 "10001", "1234567890", "123-45-6789",
@@ -44,7 +44,7 @@ public class ParabankSidebarLinksTest {
 
     @BeforeMethod
     public void setupTest() {
-        driver.get(CONFIG_LINK.BASE_URL+"/overview.htm");
+        driver.get(ConfigLink.BASE_URL+"/overview.htm");
     }
 
     @AfterClass

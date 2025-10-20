@@ -19,7 +19,7 @@ public class CheckoutTest {
 
     @BeforeMethod
     public void setupTest() {
-        driver.get(CONFIG_LINKS.SAUCEDEMO_LINK);
+        driver.get(ConfigLink.SAUCEDEMO_LINK);
     }
 
     @AfterClass

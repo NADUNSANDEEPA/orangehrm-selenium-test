@@ -24,7 +24,7 @@ public class CartTest {
         cart = new Cart(driver);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        driver.get(CONFIG_LINKS.SAUCEDEMO_LINK);
+        driver.get(ConfigLink.SAUCEDEMO_LINK);
         loginPage.login("standard_user", "secret_sauce");
 
         wait.until(ExpectedConditions.urlContains("/inventory.html"));
@@ -33,14 +33,14 @@ public class CartTest {
     @BeforeMethod
     public void setup() {
         if (!driver.getCurrentUrl().contains("inventory.html")) {
-            driver.navigate().to(CONFIG_LINKS.INVENTORY_PAGE);
+            driver.navigate().to(ConfigLink.INVENTORY_PAGE);
         }
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("inventory_list")));
 
         cart.goToCart();
         cart.clearAllItems();
 
-        driver.navigate().to(CONFIG_LINKS.INVENTORY_PAGE);
+        driver.navigate().to(ConfigLink.INVENTORY_PAGE);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("inventory_list")));
     }
 
