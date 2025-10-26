@@ -33,9 +33,10 @@ public class ParabankLoginPage {
         return driver.findElement(errorMessage).getText();
     }
 
-    public void login(String username, String password) {
+    public void login(String username, String password) throws InterruptedException {
         enterUsername(username);
         enterPassword(password);
+        Thread.sleep(2000);
         clickLogin();
     }
 

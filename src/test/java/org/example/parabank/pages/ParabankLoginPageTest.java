@@ -49,15 +49,16 @@ public class ParabankLoginPageTest {
     }
 
     @Test(priority = 2, description = "Should show error for invalid credentials")
-    public void testInvalidCredentialsShowError() {
+    public void testInvalidCredentialsShowError() throws InterruptedException {
+        Thread.sleep(3000);
         loginPage.login("nadunee", "wrongPassword");
         String errorText = loginPage.getErrorMessage();
         Assert.assertTrue(errorText.contains("The username and password could not be verified."));
     }
 
     @Test(priority = 3, description = "Should register and login successfully with valid credentials")
-    public void testSuccessfulRegistrationAndLogin() {
-
+    public void testSuccessfulRegistrationAndLogin() throws InterruptedException {
+        Thread.sleep(3000);
         driver.get(ConfigLink.BASE_URL+"/register.htm");
 
         registerPage.fillRegistrationFormForBank(

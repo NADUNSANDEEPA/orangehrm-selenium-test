@@ -24,7 +24,7 @@ public class ParabankProfilePageTest {
     private String password = "Password123!";
 
     @BeforeClass
-    public void setupClass() {
+    public void setupClass() throws InterruptedException {
         driver = DriverManager.getDriver();
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         loginPage = new ParabankLoginPage(driver);

@@ -9,6 +9,8 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class ParabankRegisterPageTest {
@@ -18,6 +20,11 @@ public class ParabankRegisterPageTest {
     private ParabankRegisterPage registerPage;
     private String uniqueUsername;
     private String password = "Password123!";
+
+    private int passCount = 0;
+    private int failCount = 0;
+    private List<String> testDurations = new ArrayList<>();
+    private List<String> errors = new ArrayList<>();
 
     @BeforeClass
     public void setupClass() {
@@ -29,62 +36,113 @@ public class ParabankRegisterPageTest {
 
     @BeforeMethod
     public void setupTest() {
-        driver.get(ConfigLink.BASE_URL+"/register.htm");
+        driver.get(ConfigLink.BASE_URL + "/register.htm");
         registerPage.clearFields();
     }
 
     @AfterClass
     public void teardownClass() {
         DriverManager.quitDriver();
+
+        System.out.println("\n===== TEST SUMMARY =====");
+        System.out.println("Passed: " + passCount);
+        System.out.println("Failed: " + failCount);
+
+        if (!errors.isEmpty()) {
+            System.out.println("\nErrors:");
+            errors.forEach(System.out::println);
+        }
+
+        System.out.println("\nTest Durations:");
+        testDurations.forEach(System.out::println);
+        System.out.println("===== END OF TESTS =====");
     }
 
     @Test(priority = 1, description = "Should show errors when submitting empty form")
     public void testEmptyFormShowsErrors() {
+        long start = System.currentTimeMillis();
+        try {
+            registerPage.clearFields();
+            registerPage.clickRegister();
 
-        registerPage.clearFields();
-        registerPage.clickRegister();
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            wait.until(driver -> !registerPage.getErrorMessageForField("firstName").isEmpty());
 
-        WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(5));
-        wait.until(driver -> !registerPage.getErrorMessageForField("firstName").isEmpty());
+            Assert.assertTrue(registerPage.getErrorMessageForField("firstName").contains("First name is required"));
+            Assert.assertTrue(registerPage.getErrorMessageForField("lastName").contains("Last name is required"));
+            Assert.assertTrue(registerPage.getErrorMessageForField("address").contains("Address is required"));
+            Assert.assertTrue(registerPage.getErrorMessageForField("city").contains("City is required"));
+            Assert.assertTrue(registerPage.getErrorMessageForField("state").contains("State is required"));
+            Assert.assertTrue(registerPage.getErrorMessageForField("zipCode").contains("Zip Code is required"));
+            Assert.assertTrue(registerPage.getErrorMessageForField("ssn").contains("Social Security Number is required"));
+            Assert.assertTrue(registerPage.getErrorMessageForField("username").contains("Username is required"));
+            Assert.assertTrue(registerPage.getErrorMessageForField("password").contains("Password is required"));
+            Assert.assertTrue(registerPage.getErrorMessageForField("confirmPassword").contains("Password confirmation is required"));
 
-        Assert.assertTrue(registerPage.getErrorMessageForField("firstName").contains("First name is required"));
-        Assert.assertTrue(registerPage.getErrorMessageForField("lastName").contains("Last name is required"));
-        Assert.assertTrue(registerPage.getErrorMessageForField("address").contains("Address is required"));
-        Assert.assertTrue(registerPage.getErrorMessageForField("city").contains("City is required"));
-        Assert.assertTrue(registerPage.getErrorMessageForField("state").contains("State is required"));
-        Assert.assertTrue(registerPage.getErrorMessageForField("zipCode").contains("Zip Code is required"));
-        Assert.assertTrue(registerPage.getErrorMessageForField("ssn").contains("Social Security Number is required"));
-        Assert.assertTrue(registerPage.getErrorMessageForField("username").contains("Username is required"));
-        Assert.assertTrue(registerPage.getErrorMessageForField("password").contains("Password is required"));
-        Assert.assertTrue(registerPage.getErrorMessageForField("confirmPassword").contains("Password confirmation is required"));
+            passCount++;
+            System.out.println("Test Case 01 PASSED");
+        } catch (AssertionError e) {
+            failCount++;
+            errors.add("Test Case 01: " + e.getMessage());
+            System.out.println("Test Case 01 FAILED: " + e.getMessage());
+        } finally {
+            long end = System.currentTimeMillis();
+            testDurations.add("Test Case 01 Duration: " + (end - start) + "ms");
+        }
     }
 
     @Test(priority = 2, description = "Should register successfully with valid data")
     public void testSuccessfulRegistration() {
-        registerPage.fillRegistrationFormForBank(
-                "John", "Doe", "123 Main St", "New York", "NY",
-                "10001", "1234567890", "123-45-6789",
-                uniqueUsername, password
-        );
-        registerPage.clickRegister();
+        long start = System.currentTimeMillis();
+        try {
+            registerPage.fillRegistrationFormForBank(
+                    "John", "Doe", "123 Main St", "New York", "NY",
+                    "10001", "1234567890", "123-45-6789",
+                    uniqueUsername, password
+            );
+            registerPage.clickRegister();
 
-        Assert.assertTrue(driver.getPageSource().contains("Your account was created successfully"));
+            Assert.assertTrue(driver.getPageSource().contains("Your account was created successfully"));
+
+            passCount++;
+            System.out.println("Test Case 02 PASSED");
+        } catch (AssertionError e) {
+            failCount++;
+            errors.add("Test Case 02: " + e.getMessage());
+            System.out.println("Test Case 02 FAILED: " + e.getMessage());
+        } finally {
+            long end = System.currentTimeMillis();
+            testDurations.add("Test Case 02 Duration: " + (end - start) + "ms");
+        }
     }
 
     @Test(priority = 3, description = "Should show error if username already exists")
     public void testUsernameAlreadyExists() {
-        registerPage.fillRegistrationFormForBank(
-                "John", "Doe", "123 Main St", "New York", "NY",
-                "10001", "1234567890", "123-45-6789",
-                uniqueUsername, password
-        );
-        registerPage.clickRegister();
+        long start = System.currentTimeMillis();
+        try {
+            registerPage.fillRegistrationFormForBank(
+                    "John", "Doe", "123 Main St", "New York", "NY",
+                    "10001", "1234567890", "123-45-6789",
+                    uniqueUsername, password
+            );
+            registerPage.clickRegister();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("customer.username.errors")));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("customer.username.errors")));
 
-        String errorText = driver.findElement(By.id("customer.username.errors")).getText();
-        System.out.println(errorText);
-        Assert.assertTrue(errorText.contains("This username already exists"));
+            String errorText = driver.findElement(By.id("customer.username.errors")).getText();
+            System.out.println("Error Message: " + errorText);
+            Assert.assertTrue(errorText.contains("This username already exists"));
+
+            passCount++;
+            System.out.println("Test Case 03 PASSED");
+        } catch (AssertionError e) {
+            failCount++;
+            errors.add("Test Case 03: " + e.getMessage());
+            System.out.println("Test Case 03 FAILED: " + e.getMessage());
+        } finally {
+            long end = System.currentTimeMillis();
+            testDurations.add("Test Case 03 Duration: " + (end - start) + "ms");
+        }
     }
 }
