@@ -38,12 +38,6 @@ public class CheckoutStepOneTest {
 
     @BeforeMethod
     public void setupTest() {
-//        driver.get(CONFIG_LINKS.SAUCEDEMO_LINK + "/cart.html");
-//        wait.until(ExpectedConditions.urlContains("/cart.html"));
-//
-//        driver.findElement(By.cssSelector("[data-test='checkout']")).click();
-//        wait.until(ExpectedConditions.urlContains("/checkout-step-one.html"));
-        checkoutStepOne.clearCheckoutForm();
     }
 
 
@@ -71,6 +65,8 @@ public class CheckoutStepOneTest {
             description = "Last Name empty shows error"
     )
     public void testLastNameEmptyShowsError() throws InterruptedException {
+        driver.get(ConfigLink.SAUCEDEMO_LINK+"/checkout-step-one.html");
+        Thread.sleep(1500);
         checkoutStepOne.fillCheckoutForm("John", "", "12345");
         checkoutStepOne.submitCheckoutForm();
         Thread.sleep(1000);
@@ -84,6 +80,8 @@ public class CheckoutStepOneTest {
             description = "Postal Code empty shows error"
     )
     public void testPostalCodeEmptyShowsError() throws InterruptedException {
+        driver.get(ConfigLink.SAUCEDEMO_LINK+"/checkout-step-one.html");
+        Thread.sleep(1500);
         checkoutStepOne.fillCheckoutForm("John", "Doe", null);
         checkoutStepOne.submitCheckoutForm();
         Thread.sleep(1000);
@@ -97,6 +95,8 @@ public class CheckoutStepOneTest {
             description = "All fields filled proceeds to next step"
     )
     public void testAllFieldsFilledProceedNextStep() throws InterruptedException {
+        driver.get(ConfigLink.SAUCEDEMO_LINK+"/checkout-step-one.html");
+        Thread.sleep(1500);
         checkoutStepOne.fillCheckoutForm("John", "Doe", "12345");
         checkoutStepOne.submitCheckoutForm();
         Thread.sleep(1000);
